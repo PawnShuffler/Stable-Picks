@@ -1,0 +1,42 @@
+body {
+  background: #fefefe;
+  font-family: sans-serif;
+  text-align: center;
+  color: #333;
+}
+
+h1 {
+  color: #666;
+}
+
+button {
+  margin: 10px;
+  padding: 8px 16px;
+  background: #cce5ff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #99ccff;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px auto;
+}
+
+.option input[type="text"],
+.option input[type="number"] {
+  padding: 4px;
+}
+
+canvas {
+  image-rendering: pixelated;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
