@@ -25,9 +25,10 @@ button:hover {
 .option {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; 
   gap: 10px;
   margin: 10px auto;
+  position: relative; 
 }
 
 .option input[type="text"],
@@ -39,4 +40,5 @@ canvas {
   image-rendering: pixelated;
   border: 1px solid #ddd;
   cursor: pointer;
+  transition: transform 0.03s linear;
 }
