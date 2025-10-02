@@ -4,9 +4,8 @@ const startRaceBtn = document.getElementById('startRaceBtn');
 
 // Load horse sprite once
 const horseImg = new Image();
-horseImg.src = "assets/horse.png"; // correct path
+horseImg.src = "assets/horse.png"; // make sure path is correct
 
-// Wait until image is fully loaded
 horseImg.onload = () => {
   console.log("Horse image loaded!");
 };
@@ -23,30 +22,25 @@ function addHorseOption() {
   const optionDiv = document.createElement('div');
   optionDiv.className = 'option';
 
-  // Horse name input
   const nameInput = document.createElement('input');
   nameInput.type = 'text';
   nameInput.placeholder = 'Horse name';
 
-  // Bet input
   const betInput = document.createElement('input');
   betInput.type = 'number';
   betInput.placeholder = 'Bet';
 
-  // Canvas
   const canvas = document.createElement('canvas');
   canvas.width = 64;
   canvas.height = 64;
   const ctx = canvas.getContext('2d');
 
-  // Draw horse once image is loaded
   if (horseImg.complete) {
     drawHorse(ctx);
   } else {
     horseImg.onload = () => drawHorse(ctx);
   }
 
-  // Recolor horse on click
   canvas.addEventListener('click', () => {
     drawHorse(ctx);
   });
@@ -58,16 +52,12 @@ function addHorseOption() {
 }
 
 function drawHorse(ctx) {
-  // Clear canvas
   ctx.clearRect(0, 0, 64, 64);
-  // Draw base horse
   ctx.drawImage(horseImg, 0, 0, 64, 64);
 
-  // Get pixel data
   const imageData = ctx.getImageData(0, 0, 64, 64);
   const data = imageData.data;
 
-  // Random fur and mane colors
   const furColor = randomColor();
   const maneColor = randomColor();
 
@@ -100,27 +90,29 @@ function randomColor() {
   ];
 }
 
-//start race function
+// Race function
 function startRace() {
-  const horses = Array.from(optionsContainer.querySelectorAll('.option canvas'));
-  const finishLine = 500; // pixels to move to win
+  const horseOptions = Array.from(optionsContainer.querySelectorAll('.option'));
+  if (horseOptions.length === 0) {
+    alert("Add some horses first!");
+    return;
+  }
 
-  // Store positions
-  const positions = horses.map(() => 0);
+  const finishLine = 500; // pixels
+  const positions = horseOptions.map(() => 0);
 
   const raceInterval = setInterval(() => {
-    horses.forEach((canvas, index) => {
-      // Random speed per frame
+    horseOptions.forEach((optionDiv, index) => {
+      const canvas = optionDiv.querySelector('canvas');
       const speed = 2 + Math.random() * 3;
       positions[index] += speed;
 
-      // Move canvas visually using CSS
       canvas.style.transform = `translateX(${positions[index]}px)`;
 
-      // Check for winner
       if (positions[index] >= finishLine) {
         clearInterval(raceInterval);
-        alert(`🏆 Horse ${index + 1} wins!`);
+        const horseName = optionDiv.querySelector('input[type="text"]').value || `#${index+1}`;
+        alert(`🏆 Horse ${horseName} wins!`);
       }
     });
   }, 30);
