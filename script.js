@@ -1,5 +1,6 @@
 const optionsContainer = document.getElementById('optionsContainer');
 const addOptionBtn = document.getElementById('addOptionBtn');
+const startRaceBtn = document.getElementById('startRaceBtn');
 
 // Load horse sprite once
 const horseImg = new Image();
@@ -12,6 +13,10 @@ horseImg.onload = () => {
 
 addOptionBtn.addEventListener('click', () => {
   addHorseOption();
+});
+
+startRaceBtn.addEventListener('click', () => {
+  startRace();
 });
 
 function addHorseOption() {
@@ -93,4 +98,30 @@ function randomColor() {
     Math.floor(Math.random() * 256),
     Math.floor(Math.random() * 256)
   ];
+}
+
+//start race function
+function startRace() {
+  const horses = Array.from(optionsContainer.querySelectorAll('.option canvas'));
+  const finishLine = 500; // pixels to move to win
+
+  // Store positions
+  const positions = horses.map(() => 0);
+
+  const raceInterval = setInterval(() => {
+    horses.forEach((canvas, index) => {
+      // Random speed per frame
+      const speed = 2 + Math.random() * 3;
+      positions[index] += speed;
+
+      // Move canvas visually using CSS
+      canvas.style.transform = `translateX(${positions[index]}px)`;
+
+      // Check for winner
+      if (positions[index] >= finishLine) {
+        clearInterval(raceInterval);
+        alert(`🏆 Horse ${index + 1} wins!`);
+      }
+    });
+  }, 30);
 }
